@@ -1,7 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
+#include<math.h>
 
-#define TAM 4
+//#define TAM 1200000
+#define Q_A 4
+#define ERRO -1
 
 typedef struct Intervalo{
     int inicio;
@@ -15,24 +19,81 @@ void insertion(Intervalo *v);
 void mergeSort(Intervalo *vetor, int posicaoInicio, int posicaoFim);
 void quickSort(Intervalo *vet, int esq, int dir);
 void quickSortRand(Intervalo *vet, int esq, int dir);
+double cTime(struct timeval t1, struct timeval t2);
+long stringToNumber(char **str);
 
-int main(){
+
+int main(int argc, char **argv){
     int i;
-    Intervalo intervalo[TAM];
+    Intervalo *intervalo;
+    struct timeval t1, t2;
+    double time[Q_A];
+    FILE *arq;
+    
+    if(argv[1]==NULL){
+        printf("./ordenacoes \"tamanho do vetor\" \"execucao\" ");
+        return ERRO;
+    }
 
-    /*intervalo[0].inicio = 13;
-      intervalo[0].fim=15;
-      intervalo[1].inicio = 12;
-      intervalo[1].fim=20;
-      intervalo[2].inicio = 12;
-      intervalo[2].fim=17;*/
+    arq = fopen("res.dat","a");
+    if(arq==NULL){
+        printf("Erro ao abrir o arquivo!");
+        return ERRO;
+    }
+    fprintf(arq,"%li ",stringToNumber(argv,2));
+
+    intervalo=(Intervalo*)malloc(sizeof(Intervalo)*stringToNumber(argv, 1));
+    vetorPreenche(intervalo,0);
+    gettimeofday(&t1, NULL); 
+    quickSort(intervalo,0,TAM-1);
+    gettimeofday(&t2, NULL); 
+    time[0]=cTime(t1,t2); 
+    fprintf(arq,"%.3lf ",time[0]);
 
     vetorPreenche(intervalo,0);
-    vetorMostra(intervalo);
-    quickSortRand(intervalo,0,TAM-1);
-    vetorMostra(intervalo);
+    bubbleSort(intervalo);
+    gettimeofday(&t2, NULL); 
+    time[1]=cTime(t1,t2); 
+    fprintf(arq,"%.3lf ",time[1]);
+
+    vetorPreenche(intervalo,0);
+    insertion(intervalo);
+    gettimeofday(&t2, NULL); 
+    time[2] = cTime(t1,t2);
+    fprintf(arq,"%.3lf ",time[2]);
+
+    vetorPreenche(intervalo,0);
+    mergeSort(intervalo,0,TAM-1);
+    gettimeofday(&t2, NULL); 
+    time[3] = cTime(t1,t2);
+    fprintf(arq,"%.3lf\n",time[3]);
 
     return 0;
+}
+
+long stringToNumber(char **stri, int pos){
+    int i=0;
+    long result=0;
+    int p = 0;
+    for(i=0;str[pos][i]!='\0';i++);
+    i--;
+    while(i!=-1){
+        result += pow(10,p)*(str[pos][i]-48);
+        i--;
+        p++;
+    }
+
+    return result;
+}
+
+double cTime(struct timeval t1, struct timeval t2){
+    double elapsedTime;
+
+    elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;      // sec to ms
+    elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0;   // us to ms
+    elapsedTime /=1000.0;
+
+    return elapsedTime;
 }
 
 void bubbleSort(Intervalo *vetor){
