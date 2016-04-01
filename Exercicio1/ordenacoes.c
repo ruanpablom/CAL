@@ -228,30 +228,22 @@ void quickSort(Intervalo *vet, int esq, int dir){
     }
 }
 
-void quickSortRand(Intervalo *vet, int esq, int dir){
-    int i,j;
-    int pivo;
-    Intervalo ch;
-
-    srand(time(NULL));
-    pivo = (rand()%(dir-esq)) + esq;
-    printf("%d - %d == %d\n",dir,esq,pivo); 
-    for(i=esq;i<=dir;i++){
-        j = i;
-        if(vet[j].inicio < vet[pivo].inicio || (vet[j].inicio == vet[pivo].inicio && vet[j].fim < vet[pivo].fim)){
-            ch = vet[j];
-            while(j > pivo){    
-                vet[j] = vet[j-1];
-                j--;
-            }
-            vet[j] = ch;
-            pivo++;        
-        }  
+void quickSortRand(Intervalo *a, int n){
+    int i, j, t;
+    Intervalo p;
+    if (n < 2)
+        return;
+    p = a[rand(time(NULL))%n];//escolha do pivo
+    for (i = 0, j = n - 1;; i++, j--) {
+        while (a[i].inicio < p.inicio || (a[i].inicio == p.inicio && a[i].fim < p.fim))//por enquanto q o pivo for o maior
+            i++;
+        while (a[j].inicio > p.inicio || (a[j].inicio == p.inicio && a[j].fim > p.fim))
+            j--;
+        if (i >= j)
+            break;
+        swap(&a[i], &a[j]);//troca
     }
-    if(pivo-1 > esq){
-        quickSortRand(vet,esq,pivo-1);
-    }
-    if(pivo+1 < dir){
-        quickSortRand(vet,pivo+1,dir);
+    quickSortRand(a, i);//sublista dos elementos menores
+    quickSortRand(a + i, n - i);//sublista dos elementos maiores
     }
 }
