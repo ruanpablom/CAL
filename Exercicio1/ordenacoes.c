@@ -1,9 +1,10 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <sys/time.h>
 
-//#define TAM 1200000
+#define TAM 10
 #define Q_A 4
 #define ERRO -1
 
@@ -18,20 +19,20 @@ void vetorMostra( Intervalo *v);
 void insertion(Intervalo *v);
 void mergeSort(Intervalo *vetor, int posicaoInicio, int posicaoFim);
 void quickSort(Intervalo *vet, int esq, int dir);
-void quickSortRand(Intervalo *vet, int esq, int dir);
+void quickSortRand(Intervalo *vet, int n);
 double cTime(struct timeval t1, struct timeval t2);
-long stringToNumber(char **str);
+long stringToNumber(char **str, int pos);
+void swap(Intervalo *e1, Intervalo *e2);
 
 
 int main(int argc, char **argv){
-    int i;
     Intervalo *intervalo;
     struct timeval t1, t2;
     double time[Q_A];
     FILE *arq;
     
     if(argv[1]==NULL){
-        printf("./ordenacoes \"tamanho do vetor\" \"execucao\" ");
+        printf("./ordenacoes \"tamanho do vetor\" \"execucao\" \n");
         return ERRO;
     }
 
@@ -71,7 +72,7 @@ int main(int argc, char **argv){
     return 0;
 }
 
-long stringToNumber(char **stri, int pos){
+long stringToNumber(char **str, int pos){
     int i=0;
     long result=0;
     int p = 0;
@@ -228,12 +229,18 @@ void quickSort(Intervalo *vet, int esq, int dir){
     }
 }
 
+void swap(Intervalo *e1, Intervalo *e2){
+	Intervalo aux = *e2;
+	*e2 = *e1;
+	*e1 = aux;
+}
+
 void quickSortRand(Intervalo *a, int n){
-    int i, j, t;
+    int i, j;
     Intervalo p;
     if (n < 2)
         return;
-    p = a[rand(time(NULL))%n];//escolha do pivo
+    p = a[rand()%n];//escolha do pivo
     for (i = 0, j = n - 1;; i++, j--) {
         while (a[i].inicio < p.inicio || (a[i].inicio == p.inicio && a[i].fim < p.fim))//por enquanto q o pivo for o maior
             i++;
@@ -245,5 +252,5 @@ void quickSortRand(Intervalo *a, int n){
     }
     quickSortRand(a, i);//sublista dos elementos menores
     quickSortRand(a + i, n - i);//sublista dos elementos maiores
-    }
 }
+
