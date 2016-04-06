@@ -1,10 +1,15 @@
 #include<stdio.h>
 #include"ordenacoes.h"
 
+int maiorValor(int *vet,int tamanho);
+
 void bucketSort(int *vet, int tam){
     bucket buckets[NUM_BUCKET];
     int i,j,k;
-    int qtdElementosBalde = tam/NUM_BUCKET;
+    
+    maiorValorVet = maiorValor(vet,tam);
+
+    int qtdElementosBalde = maiorValorVet/NUM_BUCKET;
     
     for(i=0;i<NUM_BUCKET;i++) buckets[i].tamanhoBalde=0; //inicializa os topos
 
@@ -32,4 +37,13 @@ void bucketSort(int *vet, int tam){
             i++;
         }
     }
+}
+
+int maiorValor(int *vet,int tamanho){
+    int maior=0;
+    int i;
+    for(i=0;i<tamanho;i++){
+        if(vet[i]>maior)maior=vet[i];
+    }
+    return maior;
 }

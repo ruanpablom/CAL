@@ -6,6 +6,8 @@
 #define MAX_BUCKET 100
 #define NUM_BUCKET 10
 
+int maiorValorVet = 0;
+
 typedef struct{
     int tamanhoBalde;
     int balde[MAX_BUCKET];
