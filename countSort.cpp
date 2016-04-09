@@ -11,25 +11,28 @@ void countSort(int *v)
 			maior=v[i];
 		}
 	}
-	int c[maior] = {0};
+	int c[maior];
+	for (int i = 0; i < maior; i++){
+		c[i] = 0;
+	}
 	for (i = 0; i < TAM; ++i)
 	{
 		c[v[i]]++;
 	}
-	int j, *aux = v;
+	int *aux = v;
 	for (int i = 0; i < maior; ++i)
 	{
 		for (int j = 0; j < c[i]; ++j)
 		{
 			*aux = i;
-			c[i]--;
+			aux++;
 		}
 	}
 }
 
 int main(int argc, char const *argv[])
 {
-	int v[TAM] = [5, 1, 4, 1, 2, 4, 5, 3, 3, 2];
+	int v[TAM] = {5, 1, 4, 1, 2, 4, 5, 3, 3, 2};	
 	countSort(v);
 	for (int i = 0; i < TAM; ++i)
 	{
