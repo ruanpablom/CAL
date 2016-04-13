@@ -3,7 +3,7 @@
 #define TAM 10
 #endif
 //TODO debugar e fazer elementos aleatórios 
-int* countSort(int *v)
+void countSort(int *v)
 {
 	int maior=0;
 	for (int i = 0; i < TAM; ++i)
@@ -22,15 +22,20 @@ int* countSort(int *v)
 		aux[c[v[i]]-1] = v[i];
 		c[v[i]]--;
 	}
-	return aux;
+	for (int i = 0; i < TAM; ++i){
+		v[i] = aux[i];
+	}
 }
+void randomize(int* v){
+    srand(time(NULL));
 
+}
 int main(int argc, char const *argv[])
 {
 	int v[TAM] = {5, 1, 4, 1, 2, 4, 5, 3, 3, 2};	
-	v = countSort(v);
+	countSort(v);
 	for (int i = 0; i < TAM; ++i)
-		printf("%d ", v[i]);
+        	printf("%d ", v[i]);
 	printf("\n");
 	return 0;
 }
