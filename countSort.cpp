@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #ifndef TAM
-#define TAM 10
+#define TAM 100
 #endif
-//TODO debugar e fazer elementos aleatórios 
+#define MAX 1000000 
 void countSort(int *v)
 {
 	int maior=0;
@@ -28,14 +30,21 @@ void countSort(int *v)
 }
 void randomize(int* v){
     srand(time(NULL));
-
+    for(int i=0; i<TAM; i++){
+        v[i]=rand()%MAX;
+    }
+    v[0]=2000000;
 }
 int main(int argc, char const *argv[])
 {
-	int v[TAM] = {5, 1, 4, 1, 2, 4, 5, 3, 3, 2};	
-	countSort(v);
-	for (int i = 0; i < TAM; ++i)
-        	printf("%d ", v[i]);
-	printf("\n");
+	int v[TAM];	
+        randomize(v);
+//        for(int i=0; i<TAM;i++)
+//            printf("%d ",v[i]);
+//        printf("\n\n);
+        countSort(v); 
+        //for (int i = 0; i < TAM; ++i)
+                //printf("%d ", v[i]);
+	//printf("\n");
 	return 0;
 }
