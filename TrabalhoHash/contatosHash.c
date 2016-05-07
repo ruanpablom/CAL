@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define TAM_TAB 100
-#define MODO 1
+#define MODO 0
 #define STR_FIXA 7
 #define QTD_INSERT 100000
 
@@ -34,6 +35,8 @@ int main(){
 	contatoNulo.nome = NULL;
 	NoTab **tab = tabInit();
 	char chave[200];
+	srand(time(NULL));
+
 	if(MODO){
 	while(1){
 		printf("1-Novo contato.\n");
@@ -61,7 +64,7 @@ Contato *novoContato(){
 	Contato *contato;
 	char str[200];
 	int tamString;
-	int i = 0,j;
+	int i = 0,j;	
 
 	contato = (Contato*)malloc(sizeof(Contato));
 	while(i<3){
